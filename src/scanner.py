@@ -131,9 +131,11 @@ class _Tokenizer:
 
     def get_string_token(self, char):
         offset = self.col_offset
+        line = self.line
         self.move_tail(1)
         while self.is_not_eof(index=self.tail) and self.get_char(index=self.tail) != char:
             if self.get_char(index=self.tail) == "\n":
+                line = line + 1
                 offset = self.tail
             self.move_tail(1)
         if not self.is_not_eof(index=self.tail):
@@ -142,10 +144,16 @@ class _Tokenizer:
             self.move_tail(1)
             lexeme = self.get_lexeme()
             self.move_tail(-1)
-            self.add_token(type=TokenType.STRING, lexeme=lexeme, col=self.get_column())
-            self.head = self.tail
+            row = None
+            if line != self.line:
+                row = (self.line, line)
+                self.line = line
+            col=self.get_column()
             if offset != self.col_offset:
+                col = (self.head - self.col_offset, self.tail - offset)
                 self.col_offset = offset
+            self.add_token(type=TokenType.STRING, lexeme=lexeme, col=col, row=row)
+            self.head = self.tail
 
 
     def get_number_token(self):
@@ -217,7 +225,8 @@ class _Tokenizer:
 
 
     def add_token(self, **token):
-        self.tokens.append(Token(**token, row=self.line))
+        row = token.pop('row', (self.line, self.line))
+        self.tokens.append(Token(**token, row=row))
 
 
     def peek(self, **kwargs):
