@@ -137,8 +137,7 @@ class _Tokenizer:
                 offset = self.tail
             self.move_tail(1)
         if not self.is_not_eof(index=self.tail):
-            # TODO: Fix this so it makes an accurate report
-            raise Exception(f"[UNTERMINATED STRING] Line: {self.line} Column: {self.head - offset}")
+            raise Exception(f"[UNTERMINATED STRING] Line: {self.line} Column: {self.head - self.col_offset}")
         else:
             self.move_tail(1)
             lexeme = self.get_lexeme()
