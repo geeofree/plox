@@ -76,19 +76,19 @@ class _Tokenizer:
                     case "-":
                         self.get_compound_char_token(TokenType.MINUS_MINUS)
                     case _:
-                        self.get_char_token(TokenType.MINUS_MINUS)
+                        self.get_char_token(TokenType.MINUS)
             case "*":
                 match self.peek():
                     case "*":
                         self.get_compound_char_token(TokenType.STAR_STAR)
                     case _:
-                        self.get_char_token(TokenType.STAR_STAR)
+                        self.get_char_token(TokenType.STAR)
             case "/":
                 match self.peek():
                     case "/":
                         self.get_compound_char_token(TokenType.SLASH_SLASH)
                     case _:
-                        self.get_char_token(TokenType.SLASH_SLASH)
+                        self.get_char_token(TokenType.SLASH)
             case "=":
                 match self.peek():
                     case "=":
