@@ -1,4 +1,14 @@
-from .token import TokenType, Token
+from typing import List
+from typing_extensions import NotRequired, TypedDict
+from .token import TokenArgs, TokenType, Token
+
+
+class AddTokenArgs(TypedDict):
+    type: TokenType
+    lexeme: NotRequired[str]
+    col: NotRequired[tuple[int, int]]
+    row: NotRequired[tuple[int, int]]
+
 
 class Scanner:
     def __init__(self, source):
@@ -11,13 +21,13 @@ class Scanner:
 
 class _Tokenizer:
     def __init__(self, source):
-        self.source = source
-        self.source_len = len(source)
-        self.head = 0
-        self.tail = self.head
-        self.col_offset = self.head
-        self.line = 1
-        self.tokens = []
+        self.source: str = source
+        self.source_len: int = len(source)
+        self.head: int = 0
+        self.tail: int = self.head
+        self.col_offset: int = self.head
+        self.line: int = 1
+        self.tokens: List[Token] = []
 
 
     def tokenize(self):
@@ -119,13 +129,13 @@ class _Tokenizer:
         self.move_tail(1)
 
 
-    def get_char_token(self, token_type):
-        self.add_token(type=token_type, col=self.get_column())
+    def get_char_token(self, token_type: TokenType):
+        self.add_token({ 'type': token_type })
 
 
     def get_compound_char_token(self, token_type):
         self.move_tail(1)
-        self.add_token(type=token_type, col=self.get_column())
+        self.add_token({ 'type': token_type })
         self.move_head(1)
 
 
@@ -144,15 +154,15 @@ class _Tokenizer:
             self.move_tail(1)
             lexeme = self.get_lexeme()
             self.move_tail(-1)
-            row = None
+            token: AddTokenArgs = { 'type': TokenType.STRING, 'lexeme': lexeme }
             if line != self.line:
-                row = (self.line, line)
+                token['row'] = (self.line, line)
                 self.line = line
-            col=self.get_column()
+            token["col"]=self.get_column()
             if offset != self.col_offset:
-                col = (self.head - self.col_offset, self.tail - offset)
+                token['col'] = (self.head - self.col_offset, self.tail - offset)
                 self.col_offset = offset
-            self.add_token(type=TokenType.STRING, lexeme=lexeme, col=col, row=row)
+            self.add_token(token)
             self.head = self.tail
 
 
@@ -170,7 +180,7 @@ class _Tokenizer:
             self.move_tail(1)
         lexeme = self.get_lexeme()
         self.move_tail(-1)
-        self.add_token(type=token_type, lexeme=lexeme, col=self.get_column())
+        self.add_token({ 'type': token_type, 'lexeme': lexeme })
         self.head = self.tail
 
 
@@ -222,13 +232,18 @@ class _Tokenizer:
                 token_type = TokenType.RETURN
             case _:
                 token_type = TokenType.IDENT
-        self.add_token(type=token_type, lexeme=lexeme, col=self.get_column())
+        self.add_token({'type': token_type, 'lexeme': lexeme})
         self.head = self.tail
 
 
-    def add_token(self, **token):
-        row = token.pop('row', (self.line, self.line))
-        self.tokens.append(Token(**token, row=row))
+    def add_token(self, token: AddTokenArgs):
+        _token: TokenArgs = {
+            'type': token['type'],
+            'lexeme': token.get('lexeme'),
+            'row': token.pop('row', (self.line, self.line)),
+            'col': token.pop('col', self.get_column())
+        }
+        self.tokens.append(Token(_token))
 
 
     def peek(self, **kwargs):

@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import TypedDict
 
 
 class TokenType(Enum):
@@ -63,8 +64,15 @@ class TokenType(Enum):
     RETURN = 'RETURN'
 
 
+class TokenArgs(TypedDict):
+    type: TokenType
+    lexeme: str | None
+    col: tuple[int, int]
+    row: tuple[int, int]
+
+
 class Token:
-    def __init__(self, **token) -> None:
+    def __init__(self, token: TokenArgs) -> None:
         self.type = token.get('type')
         self.lexeme = token.get('lexeme')
         self.col = token.get('col')
