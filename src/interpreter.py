@@ -1,12 +1,13 @@
+from src.ast import AstParser
 from .scanner import Scanner
-from .parser import AstPrinter, Parser
+from .parser import Parser
 
 class Interpreter:
     @staticmethod
     def run_script(source):
         tokens = Scanner(source).scan()
         expr = Parser(tokens).parse()
-        AstPrinter.print(expr)
+        AstParser.print(expr)
 
 
     @staticmethod
