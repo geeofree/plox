@@ -44,6 +44,7 @@ class TokenType(Enum):
     # Reserved Keywords
     TRUE = 'TRUE'
     FALSE = 'FALSE'
+    NIL = 'NIL'
     NOT = 'NOT'
     IS = 'IS'
     AND = 'AND'

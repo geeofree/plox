@@ -184,6 +184,8 @@ class _Tokenizer:
         self.move_tail(-1)
         token_type = None
         match lexeme:
+            case "nil":
+                token_type = TokenType.NIL
             case "true":
                 token_type = TokenType.TRUE
             case "false":
