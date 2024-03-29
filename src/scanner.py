@@ -75,16 +75,12 @@ class _Tokenizer:
                 match self.peek():
                     case "=":
                         self.get_compound_char_token(TokenType.PLUS_EQUAL)
-                    case "+":
-                        self.get_compound_char_token(TokenType.PLUS_PLUS)
                     case _:
                         self.get_char_token(TokenType.PLUS)
             case "-":
                 match self.peek():
                     case "=":
                         self.get_compound_char_token(TokenType.MINUS_EQUAL)
-                    case "-":
-                        self.get_compound_char_token(TokenType.MINUS_MINUS)
                     case _:
                         self.get_char_token(TokenType.MINUS)
             case "*":

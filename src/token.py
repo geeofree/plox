@@ -24,9 +24,7 @@ class TokenType(Enum):
     GT = 'GT'
     LT = 'LT'
 
-    PLUS_PLUS = 'PLUS_PLUS'
     PLUS_EQUAL = 'PLUS_EQUAL'
-    MINUS_MINUS = 'MINUS_MINUS'
     MINUS_EQUAL = 'MINUS_EQUAL'
     STAR_STAR = 'STAR_STAR'
     SLASH_SLASH = 'SLASH_SLASH'

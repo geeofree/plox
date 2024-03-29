@@ -64,7 +64,7 @@ class _Parser:
 
 
     def unary(self):
-        while self.match(TokenType.MINUS, TokenType.NOT, TokenType.PLUS_PLUS, TokenType.MINUS_MINUS):
+        while self.match(TokenType.MINUS, TokenType.NOT):
             operator = self.get_previous_token()
             right = self.unary()
             return UnaryExpr(operator.type, right)
