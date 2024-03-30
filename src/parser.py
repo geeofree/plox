@@ -29,7 +29,7 @@ class _Parser:
 
     def equality(self):
         expr = self.comparison()
-        while self.match(TokenType.EQUAL_EQUAL, TokenType.BANG_EQUAL):
+        while self.match(TokenType.EQUAL_EQUAL, TokenType.BANG_EQUAL, TokenType.IS):
             operator = self.get_previous_token()
             right = self.comparison()
             expr = BinaryExpr(expr, operator.type, right)
