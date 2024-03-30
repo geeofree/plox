@@ -27,8 +27,9 @@ class _AstPrinter(Expr):
             token, indent_level, value = item
             if indent_level > 1:
                 start_prefix = "┣" if index < total_list else "┗"
-                print_str += start_prefix + "━" * (indent_level - 1)
-            print_str += f"[{token}]"
+                print_str += start_prefix
+                print_str += "━" * (indent_level - 1)
+            print_str += token
             if value is not None:
                 print_str += f" {value}"
             if index < total_list:
