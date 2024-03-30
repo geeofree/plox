@@ -200,6 +200,8 @@ class _Tokenizer:
                 token_type = TokenType.NOT
             case "is":
                 token_type = TokenType.IS
+            case "in":
+                token_type = TokenType.IN
             case "and":
                 token_type = TokenType.AND
             case "or":

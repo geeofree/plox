@@ -46,6 +46,7 @@ class TokenType(Enum):
     NIL = 'NIL'
     NOT = 'NOT'
     IS = 'IS'
+    IN = 'IN'
     AND = 'AND'
     OR = 'OR'
 
