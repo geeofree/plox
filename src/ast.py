@@ -19,8 +19,16 @@ class _AstPrinter(Expr):
         print(self.print_string)
 
 
+    def add_indent(self, indent_level: int | None=None):
+        indent_level = indent_level if indent_level is not None else self.indent_level
+        if self.indent_level > 1:
+            self.print_string += "┣" + ("━" * (indent_level - 1))
+        elif self.indent_level == 1:
+            self.print_string += "┣"
+
+
     def visit_expressions(self, expr):
-        self.print_string += "  " * self.indent_level
+        self.add_indent()
         self.indent_level += 1
         match expr:
             case _bin if isinstance(expr, BinaryExpr):
@@ -42,7 +50,8 @@ class _AstPrinter(Expr):
 
     def visit_binary(self, expr):
         self.visit_expressions(expr.left)
-        self.print_string += "\n" + "  " * (self.indent_level - 1)
+        self.print_string += "\n"
+        self.add_indent(self.indent_level - 1)
         self.print_string += "[OPERATOR] "
         match expr.operator:
             case TokenType.EQUAL_EQUAL:
