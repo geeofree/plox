@@ -1,6 +1,12 @@
 from .grammar import BinaryExpr, Expr, ExprElem, LiteralExpr, UnaryExpr, GroupExpr
 from .token import TokenType
 
+class AstParser(Expr):
+    @staticmethod
+    def print(expr: ExprElem):
+        _AstPrinter(expr).print()
+
+
 class _AstPrinter(Expr):
     def __init__(self, expr: ExprElem) -> None:
         self.expr = expr
@@ -91,9 +97,3 @@ class _AstPrinter(Expr):
 
     def visit_not_implemented_expr(self, expr):
         print("Not implemented")
-
-
-class AstParser(Expr):
-    @staticmethod
-    def print(expr: ExprElem):
-        _AstPrinter(expr).print()
