@@ -1,6 +1,6 @@
 from typing import List
 from typing_extensions import NotRequired, TypedDict
-from .token import TokenArgs, TokenType, Token
+from .token import TokenType, Token
 
 
 class AddTokenArgs(TypedDict):
@@ -235,13 +235,12 @@ class _Tokenizer:
 
 
     def add_token(self, token: AddTokenArgs):
-        _token: TokenArgs = {
+        self.tokens.append(Token({
             'type': token['type'],
             'lexeme': token.get('lexeme'),
             'row': token.pop('row', (self.line, self.line)),
             'col': token.pop('col', self.get_column())
-        }
-        self.tokens.append(Token(_token))
+        }))
 
 
     def peek(self, **kwargs):
