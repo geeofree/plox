@@ -2,7 +2,7 @@ from typing import Any, List
 from .grammar import BinaryExpr, Expr, ExprElem, LiteralExpr, UnaryExpr, GroupExpr
 from .token import TokenType
 
-class AstParser(Expr):
+class AstParser:
     @staticmethod
     def print(expr: ExprElem):
         _AstPrinter(expr).print()
