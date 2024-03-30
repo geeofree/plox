@@ -53,7 +53,7 @@ class _AstPrinter(Expr):
                 self.print_string += "<="
             case TokenType.PLUS:
                 self.print_string += "+"
-            case TokenType.MINUS_MINUS:
+            case TokenType.MINUS:
                 self.print_string += "-"
             case TokenType.STAR:
                 self.print_string += "*"
@@ -62,7 +62,7 @@ class _AstPrinter(Expr):
             case TokenType.SLASH:
                 self.print_string += "/"
             case TokenType.SLASH_SLASH:
-                self.print_string += "/"
+                self.print_string += "//"
         self.print_string += "\n"
         self.indent_level -= 1
         self.visit_expressions(expr.right)
